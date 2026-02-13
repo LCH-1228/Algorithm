@@ -1,4 +1,13 @@
 func solution(_ arr:[Int], _ divisor:Int) -> [Int] {
-    let result = arr.filter { $0 % divisor == 0 }
-    return result.count != 0 ? result.sorted() : [-1]
+    guard divisor != 1 else { return arr.sorted() }
+    
+    var result = [Int]()
+    
+    for i in 0..<arr.count {
+        if arr[i] % divisor == 0 {
+            result.append(arr[i])
+        }
+    }
+    
+    return result.isEmpty ? [-1] : result.sorted()
 }
