@@ -1,8 +1,13 @@
 import Foundation
 
-func solution(_ n:Int) -> Int {
-    return String(n)
-    .reduce(into: 0) { result, num in
-        result += num.wholeNumberValue!
+func solution(_ n: Int) -> Int {
+    var result = 0
+    var number = n
+    
+    while number > 0 {
+        result += number % 10
+        number /= 10
     }
+    
+    return result
 }
