@@ -1,15 +1,11 @@
 func solution(_ strings:[String], _ n:Int) -> [String] {
     return strings.sorted {
-        let firstIndex = $0.index($0.startIndex, offsetBy: n)
-        let secondIndex = $1.index($1.startIndex, offsetBy: n)
+        let index1 = $0.index($0.startIndex, offsetBy: n)
+        let index2 = $1.index($1.startIndex, offsetBy: n)
         
-        let firstChar = $0[firstIndex]
-        let secondChar = $1[secondIndex]
+        let char1 = $0[index1]
+        let char2 = $1[index2]
         
-        if firstChar != secondChar {
-            return firstChar < secondChar
-        }
-        
-        return $0 < $1
+        return char1 == char2 ? $0 < $1 : char1 < char2
     }
 }
