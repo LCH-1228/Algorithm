@@ -1,11 +1,21 @@
 func solution(_ s:String) -> String {
-    return s.components(separatedBy: " ")
-        .map { word in
-            word.enumerated()
-                .map { offset, object in
-                    offset % 2 == 0 ? object.uppercased() : object.lowercased()
-                }
-                .joined()
+    var index = 0
+    var result = [String]()
+    
+    for char in s {
+        if char == " " {
+            result.append(" ")
+            index = 0
+            continue
         }
-        .joined(separator: " ")
+        
+        if index % 2 == 0 {
+            result.append(char.uppercased())
+        } else {
+            result.append(char.lowercased())
+        }
+        index += 1
+    }
+    
+    return result.joined()
 }
