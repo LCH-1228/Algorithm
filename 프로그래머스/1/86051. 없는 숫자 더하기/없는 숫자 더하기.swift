@@ -1,6 +1,15 @@
 import Foundation
 
 func solution(_ numbers:[Int]) -> Int {
-    let total = Array(1...9).reduce(0, +)
-    return numbers.reduce(total, -)
+    var result = 0
+    
+    for i in 1...9 {
+        result += i
+    }
+    
+    for number in numbers {
+        result -= number
+    }
+    
+    return result
 }
