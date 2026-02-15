@@ -2,13 +2,12 @@ import Foundation
 
 func solution(_ numbers:[Int]) -> [Int] {
     var result = Set<Int>()
-    let count = numbers.count
     
-    for i in 0..<count - 1 {
-        for j in i + 1..<count {
+    for i in 0..<numbers.count - 1 {
+        for j in (i + 1)..<numbers.count {
             result.insert(numbers[i] + numbers[j])
         }
     }
     
-    return Array(result).sorted()
+    return Array(result).sorted(by: <)
 }
