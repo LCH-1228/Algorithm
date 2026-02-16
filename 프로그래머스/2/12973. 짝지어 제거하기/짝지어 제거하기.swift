@@ -1,6 +1,6 @@
 import Foundation
 
-func solution(_ s:String) -> Int{
+func solution(_ s:String) -> Int {
     var stack = [Character]()
     
     for char in s {
