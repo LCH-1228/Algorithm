@@ -1,12 +1,21 @@
 import Foundation
 
 func solution(_ sizes:[[Int]]) -> Int {
-    let sortedSizes = sizes.map {
-        $0.sorted(by: >)
-    }
-    let w = sortedSizes.map { $0[0] }.max()!
-    let h = sortedSizes.map { $0[1] }.max()!
-    let paperSize = w * h
+    var maxWidth = 0
+    var maxHeight = 0
     
-    return paperSize
+    for i in 0..<sizes.count {
+        let width = sizes[i][0] > sizes[i][1] ? sizes[i][0] : sizes[i][1]
+        let height = sizes[i][0] < sizes[i][1] ? sizes[i][0] : sizes[i][1]
+        
+        if width > maxWidth {
+            maxWidth = width
+        }
+        
+        if height > maxHeight {
+            maxHeight = height
+        }
+    }
+    
+    return maxWidth * maxHeight
 }
