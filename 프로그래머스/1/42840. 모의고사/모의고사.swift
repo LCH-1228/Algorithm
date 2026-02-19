@@ -7,13 +7,9 @@ func solution(_ answers:[Int]) -> [Int] {
     var result = [0, 0, 0]
     
     for (i, answer) in answers.enumerated() {
-        let firstIndex = i % firstPick.count
-        let seconIndex = i % secondPick.count
-        let thirdIndex = i % thirdPick.count
-        
-        if answer == firstPick[firstIndex] { result[0] += 1 }
-        if answer == secondPick[seconIndex] { result[1] += 1 }
-        if answer == thirdPick[thirdIndex] { result[2] += 1 }
+        if answer == firstPick[i % firstPick.count] { result[0] += 1 }
+        if answer == secondPick[i % secondPick.count] { result[1] += 1 }
+        if answer == thirdPick[i % thirdPick.count] { result[2] += 1 }
     }
     
     let maxScore = result.max()!
