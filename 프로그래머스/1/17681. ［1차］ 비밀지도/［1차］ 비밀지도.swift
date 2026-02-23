@@ -1,17 +1,24 @@
 func solution(_ n:Int, _ arr1:[Int], _ arr2:[Int]) -> [String] {
-    func paddedBinary(_ value: Int) -> String {
-        let binary = String(value, radix: 2)
-        let paddingCount = n - binary.count
+    var result = [String]()
+    
+    for i in 0..<arr1.count {
+        var temp = ""
         
-        return String(repeating: "0", count: paddingCount) + binary
+        for bitString in String(arr1[i] | arr2[i], radix: 2) {
+            if bitString == "1" {
+                temp += "#"
+            } else {
+                temp += " "
+            }
+        }
+        
+        if temp.count != arr1.count {
+            let padding = String(repeating: " ", count: arr1.count - temp.count)
+            temp = padding + temp
+        }
+        
+        result.append(temp)
     }
     
-    return (0..<n).map { i in
-        let x = paddedBinary(arr1[i])
-        let y = paddedBinary(arr2[i])
-
-        return zip(x, y).map { bit1, bit2 in
-            (bit1 == "0" && bit2 == "0") ? " " : "#"
-        }.joined()
-    }   
+    return result
 }
