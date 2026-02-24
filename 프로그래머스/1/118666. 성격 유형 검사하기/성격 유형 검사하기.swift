@@ -1,30 +1,45 @@
 import Foundation
 
 func solution(_ survey:[String], _ choices:[Int]) -> String {
-    let typeList = ["R", "T", "C", "F", "J", "M", "A", "N"]
-    var scoreDict = [String: Int]()
-    for (question, choice) in zip(survey, choices) {
-        let score = choice - 4
+    var scoreDict = [Character : Int]()
+    let surveyList = ["RT", "TR", "FC", "CF", "MJ", "JM", "AN", "NA"]
+    let types: [[Character]] = [["R", "T"], ["C", "F"], ["J", "M"], ["A", "N"]]
+    var result = ""
+    
+    for i in 0..<survey.count {
+        let surv = survey[i].map { $0 }
+        let choice = choices[i]
         
-        let target: String
-        if score < 0 {
-            target = String(question.first!)
+        if choice == 4 { continue }
+        if choice < 4 {
+            scoreDict[surv[0], default: 0] += abs(choice - 4)
         } else {
-            target = String(question.last!)
+            scoreDict[surv[1], default: 0] += (choice - 4)
         }
-        
-        scoreDict[target, default: 0] += abs(score)
     }
     
-    var result = ""
-    for num in stride(from: 0, through: 6, by: 2) {
-        let first = scoreDict[typeList[num], default: 0]
-        let second = scoreDict[typeList[num + 1], default: 0]
+    for type in types {
+        let sortedType = type.sorted(by: <)
+        
+        if scoreDict[sortedType[0]] == nil, scoreDict[sortedType[1]] == nil {
+            result.append(sortedType[0])
+            continue
+        }
+        
+        guard let first = scoreDict[sortedType[0]] else {
+            result.append(sortedType[1])
+            continue
+        }
+        
+        guard let second = scoreDict[sortedType[1]] else {
+            result.append(sortedType[0])
+            continue
+        }
         
         if first >= second {
-            result += typeList[num]
+            result.append(sortedType[0])
         } else {
-            result += typeList[num + 1]
+            result.append(sortedType[1])
         }
     }
     
