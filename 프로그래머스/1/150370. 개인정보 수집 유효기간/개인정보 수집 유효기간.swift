@@ -2,32 +2,27 @@ import Foundation
 
 func solution(_ today:String, _ terms:[String], _ privacies:[String]) -> [Int] {
     var result = [Int]()
-    let todayStringArray = today.split(separator: ".").map(String.init)
-    let todayArray = todayStringArray.map({ Int($0)! })
-    let todayDayCount = todayArray[0] * 12 * 28 + todayArray[1] * 28 + todayArray[2]
+    var termsDict = [String : Int]()
+    let todayDate = today.split(separator: ".").compactMap { Int($0) }
     
-    let termsDic = Dictionary<String, Int>(uniqueKeysWithValues : terms.compactMap {
-        let keyValue = $0.split(separator: " ")
-        guard keyValue.count == 2, let value = Int(keyValue[1]) else { return nil }
-        return (String(keyValue[0]), value)
-    })
+    for term in terms {
+        let split = term.split(separator: " ")
+        termsDict[String(split[0]), default: 0] += Int(split[1])!
+    }
     
-    for (index, privacy) in privacies.enumerated() {
-        let termPartsArray = privacy.split(separator:" ")
-        var termParts = String(termPartsArray[1])
-        guard let termsValue = termsDic[termParts] else { continue }
+    for i in 0..<privacies.count {
+        let split = privacies[i].split(separator: " ")
         
-        let dateStringArray = termPartsArray[0].split(separator: ".").map(String.init)
-        let dateArray = dateStringArray.map( { Int($0)! })
+        let date = split[0].split(separator: ".").compactMap{ Int($0) }
+        let term = termsDict[String(split[1])]!
         
-        let privacyYear = dateArray[0] * 12 * 28
-        let privacyMonth = dateArray[1] * 28
-        let privacyDay = dateArray[2]
-        let expireDayCount = privacyYear + privacyMonth + privacyDay + termsValue * 28 - 1
+        let expiredDays = (date[0] * 12 * 28) + (date[1] * 28) + date[2] + (term * 28)
+        let todayDays = (todayDate[0] * 12 * 28) + (todayDate[1] * 28) + todayDate[2]
         
-        if todayDayCount > expireDayCount {
-            result.append(index + 1)
+        if todayDays >= expiredDays {
+            result.append(i + 1)
         }
     }
+    
     return result
 }
