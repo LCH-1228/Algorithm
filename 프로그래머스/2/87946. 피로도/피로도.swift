@@ -1,24 +1,25 @@
 import Foundation
 
 func solution(_ k:Int, _ dungeons:[[Int]]) -> Int {
+    var maxCount = 0
+    var visited = Array(repeating: false, count: dungeons.count)
     
-    var countList = [Int]()
-    
-    for _ in 1...10_0000 {
-        let random = dungeons.shuffled()
-        var fatigue = k
-        var count = 0
+    func dfs(currentFatigue: Int, count: Int) {
+        maxCount = max(maxCount, count)
         
-        for dungeon in random {
-            if fatigue >= dungeon[0] {
-                fatigue -= dungeon[1]
-                count += 1
-            } else {
-                break
+        for i in 0..<dungeons.count {
+            if !visited[i] && currentFatigue >= dungeons[i][0] {
+                
+                visited[i] = true
+                
+                dfs(currentFatigue: currentFatigue - dungeons[i][1], count: count + 1)
+                
+                visited[i] = false
             }
         }
-        countList.append(count)
     }
     
-    return countList.max() ?? 0
+    dfs(currentFatigue: k, count: 0)
+    
+    return maxCount
 }
