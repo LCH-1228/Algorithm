@@ -1,32 +1,39 @@
 import Foundation
 
 func solution(_ s:String) -> Int {
-    var count = 0
-    let mapping: [Character : Character] = [")" : "(", "]" : "[", "}" : "{"]
-    var brackets = s
+    guard s.count % 2 == 0 else { return 0 }
     
-    for _ in 0..<brackets.count {
+    var count = 0
+    var value = s
+    
+    let mapping: [Character : Character] = ["(" : ")", "[" : "]", "{" : "}"]
+    
+    for _ in 0..<value.count {
+        var stack = ""
+        var isValid = true
         
-        var stack = [Character]()
-        
-        for bracket in brackets {
-            
-            if let mapping = mapping[bracket] {
-                if stack.last == mapping {
-                    stack.removeLast()
-                } else {
-                    stack.append(bracket)
-                }
+        for char in value {
+            if mapping.keys.contains(char) {
+                stack.append(char)
             } else {
-                stack.append(bracket)
+                if stack.isEmpty {
+                    isValid = false
+                    break
+                }
+                
+                let last = stack.removeLast()
+                
+                if mapping[last] != char {
+                    isValid = false
+                    break
+                }
             }
         }
         
-        if stack.isEmpty { count += 1 }
+        count += isValid && stack.isEmpty ? 1 : 0
         
-        let first = brackets.removeFirst()
-        brackets.append(first)
+        let firstValue = value.removeFirst()
+        value += String(firstValue)
     }
-    
     return count
 }
