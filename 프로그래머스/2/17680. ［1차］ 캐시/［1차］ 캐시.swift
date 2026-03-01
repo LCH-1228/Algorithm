@@ -1,24 +1,23 @@
 func solution(_ cacheSize:Int, _ cities:[String]) -> Int {
-    var totalTime = 0
+    guard cacheSize != 0 else { return cities.count * 5 }
+    
     var cache = [String]()
+    var runtime = 0
     
     for city in cities {
-        let lowerCased = city.lowercased()
-        if cache.contains(lowerCased) {
-            let index = cache.firstIndex(of: lowerCased)!
-            let remove = cache.remove(at: index)
-            cache.append(lowerCased)
-            totalTime += 1
+        let lowerCity = city.lowercased()
+        if let index = cache.firstIndex(of: lowerCity) {
+            cache.remove(at: index)
+            cache.append(lowerCity)
+            runtime += 1
         } else {
-            cache.append(lowerCased)
-            totalTime += 5
+            if cache.count == cacheSize {
+                cache.removeFirst()
+            }
+            cache.append(lowerCity)
+            runtime += 5
         }
-        
-        if cache.count > cacheSize {
-            cache.removeFirst()
-        }
-        
     }
     
-    return totalTime
+    return runtime
 }
