@@ -1,16 +1,12 @@
 import Foundation
 
 func solution(_ array:[Int], _ commands:[[Int]]) -> [Int] {
-    var result = [Int]()
     
-    for command in commands {
-        let i = command[0] - 1
-        let j = command[1] - 1
-        let k = command[2] - 1
+    return commands.map { command in
+        let startIndex = command[0] - 1
+        let endIndex = command[1] - 1
+        let targetIndex = command[2] - 1
         
-        let num = Array(array[i...j]).sorted()
-        result.append(num[k])
+        return array[startIndex...endIndex].sorted()[targetIndex]
     }
-    
-    return result
 }
