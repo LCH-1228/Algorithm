@@ -1,19 +1,35 @@
 import Foundation
 
 func solution(_ k:Int, _ score:[Int]) -> [Int] {
-    var lowScores = [Int]()
-    var hallOfFrame = [Int]()
+    var result = [Int]()
+    var hall = [Int]()
     
-    for i in 0..<score.count {
-        hallOfFrame.append(score[i])
-        hallOfFrame.sort(by: >)
-        
-        if hallOfFrame.count > k {
-            hallOfFrame.removeLast()
+    for s in score {
+        if hall.count == k, let last = hall.last, last >= s {
+            result.append(last)
+            continue
         }
         
-        lowScores.append(hallOfFrame.last!)
+        var left = 0
+        var right = hall.count
+        
+        while left < right {
+            let mid = (left + right) / 2
+            
+            if hall[mid] < s {
+                right = mid
+            } else {
+                left = mid + 1
+            }
+        }
+        hall.insert(s, at: left)
+        
+        if hall.count > k {
+            hall.removeLast()
+        }
+        
+        result.append(hall.last!)
     }
     
-    return lowScores
+    return result
 }
